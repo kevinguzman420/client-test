@@ -16,6 +16,7 @@ import {
   TableColumn,
   TableRow,
   TableCell,
+  Skeleton, // skeleton
 } from "@nextui-org/react";
 import { PlusIcon, MinusIcon } from "../../components/icons/Icons";
 import { useEffect, useState } from "react";
@@ -27,7 +28,7 @@ export default function CustomizeMenuModal({ isOpen, onOpenChange }) {
 
   const [extrasCategoriesMenu, setExtrasCategoriesMenu] = useState([]); // extras category
   const [selectedKeys, setSelectedKeys] = useState(new Set(["0"])); // to accordion items
-  const [extras, setExtras] = useState([]); // extras by extras category
+  const [extras, setExtras] = useState(null); // extras by extras category
   const [selectedExtras, setSelectedExtras] = useState([]); // all selected extras
   const [total, setTotal] = useState();
   const [quantity, setQuantity] = useState(1);
@@ -57,6 +58,7 @@ export default function CustomizeMenuModal({ isOpen, onOpenChange }) {
   useEffect(() => {
     const [extraCategoryId] = selectedKeys;
     if (extraCategoryId > 0) {
+      setExtras(null)
       getExtras(extraCategoryId);
     }
   }, [selectedKeys]);
@@ -142,26 +144,35 @@ export default function CustomizeMenuModal({ isOpen, onOpenChange }) {
                     title={category.name}
                   >
                     {/* extras */}
-                    {extras.map((extra) => (
-                      <div
-                        className=" flex justify-between items-center mb-3 "
-                        key={extra.id}
-                      >
-                        <Button
-                          onPress={() => handleAddExtra(extra)}
-                          color="primary"
-                          size="sm"
-                          isDisabled={selectedExtras.some(
-                            (element) => element.id === extra.id
-                          )}
-                        >
-                          Add
-                        </Button>
-                        <p>
-                          {extra.name} (+Q{extra.price})
-                        </p>
+                    {extras === null ? (
+                      <div className=" flex justify-between items-center mb-3 w-full ">
+                        <Skeleton className=" w-[50px] h-[30px] rounded-xl "></Skeleton>
+                        <Skeleton className=" w-[100px] h-[20px] rounded-xl "/>
                       </div>
-                    ))}
+                    ) : extras.length > 0 ? (
+                      extras.map((extra) => (
+                        <div
+                          className=" flex justify-between items-center mb-3 "
+                          key={extra.id}
+                        >
+                          <Button
+                            onPress={() => handleAddExtra(extra)}
+                            color="primary"
+                            size="sm"
+                            isDisabled={selectedExtras.some(
+                              (element) => element.id === extra.id
+                            )}
+                          >
+                            Add
+                          </Button>
+                          <p>
+                            {extra.name} (+Q{extra.price})
+                          </p>
+                        </div>
+                      ))
+                    ) : (
+                      <div>No hay extras disponibles</div>
+                    )}
                   </AccordionItem>
                 ))}
               </Accordion>
