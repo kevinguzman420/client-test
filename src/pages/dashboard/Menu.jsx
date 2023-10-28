@@ -9,6 +9,7 @@ import {
   useDisclosure, // modal
 } from "@nextui-org/react";
 
+
 // state
 import { useMenuStore } from "../../store/menuStore";
 
@@ -24,6 +25,7 @@ export default function Menu() {
   const getMenuItems = async () => {
     try {
       const { data } = await axios.get("/api/v1.0/kitchen/menu");
+      console.log(data);
       setMenus(data.menus);
     } catch (error) {}
   };
