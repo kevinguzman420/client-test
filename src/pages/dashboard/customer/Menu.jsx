@@ -11,11 +11,11 @@ import {
 } from "@nextui-org/react";
 
 // state
-import { useMenuStore } from "../../store/menuStore";
+import { useMenuStore } from "../../../store/menuStore";
 
 // components
-import DashboardLayout from "./DashboardLayout";
-import CustomizeMenuModal from "./CustomizeMenuModal";
+import DashboardLayout from "../DashboardLayout";
+import CustomizeMenuModal from "../CustomizeMenuModal";
 // assets
 
 export default function Menu() {

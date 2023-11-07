@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import DashboardLayout from "./DashboardLayout";
+import DashboardLayout from "../DashboardLayout";
 import { Image, Button } from "@nextui-org/react";
 import toast from "react-hot-toast";
 
-import { useCartStore } from "../../store/menuStore";
+import { useCartStore } from "../../../store/menuStore";
 
 export default function Pay() {
   const { cart, clearCart } = useCartStore();

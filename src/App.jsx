@@ -2,22 +2,31 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
 // pages components
+// common
 import Home from "./pages/Home";
-import Menu from "./pages/dashboard/Menu";
-import Dashboard from "./pages/dashboard/Dashboard";
-import Pay from "./pages/dashboard/Pay";
-import Orders from "./pages/dashboard/Orders";
+// customer
+import Menu from "./pages/dashboard/customer/Menu";
+import Dashboard from "./pages/dashboard/customer/Dashboard";
+import Pay from "./pages/dashboard/customer/Pay";
+import Orders from "./pages/dashboard/customer/OrdersCustomer";
+// user
+import OrdersUser from "./pages/dashboard/user/OrdersUser";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* common */}
         <Route path="/" element={<Home />} />
+        {/* customer */}
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/dashboard/menu" element={<Menu />} />
         <Route path="/dashboard/pay" element={<Pay />} />
         <Route path="/dashboard/orders" element={<Orders />} />
+        {/* user */}
+        <Route path="/dashboard/orders/user" element={<OrdersUser />} />
         <Route path="*" element={<h1>Page not found</h1>} />
+        {/* admin */}
       </Routes>
 
       {/* toaster */}
