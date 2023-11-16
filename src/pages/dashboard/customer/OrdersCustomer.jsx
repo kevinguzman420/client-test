@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import socketio from "socket.io-client";
 import toast from "react-hot-toast";
 
-const socket = socketio(import.meta.env.VITE_BASE_URL);
+const socket_namespace = "/customer-orders";
+const socket = socketio(import.meta.env.VITE_BASE_URL + socket_namespace);
 
 // components
 import DashboardLayout from "../DashboardLayout";
@@ -12,7 +13,13 @@ export default function Orders() {
   const [orders, setOrders] = useState(null);
   const clientId = 1;
 
-  socket.emit("request-customer-orders");
+  const getOrders = async () => {
+    const { data } = await axios.get("/api/v1.0/kitchen/orders-by-customer/1");
+    setOrders(data.orders);
+  };
+  useEffect(() => {
+    getOrders();
+  }, []);
 
   socket.on("get-customer-orders", (data) => {
     setOrders(data.orders);

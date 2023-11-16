@@ -4,15 +4,15 @@ import toast from "react-hot-toast";
 import { Button } from "@nextui-org/react";
 import socketio from "socket.io-client";
 
-const socket = socketio(import.meta.env.VITE_BASE_URL);
+const socket_namespace = "/customer-orders";
+const socket = socketio(
+  import.meta.env.VITE_BASE_URL + socket_namespace
+);
 
 // components
 import DashboardLayout from "../DashboardLayout";
 
 export default function Orders() {
-  const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState("");
-
   const [orders, setOrders] = useState(null);
   const orderStatus = {
     onway: 2,
@@ -20,33 +20,34 @@ export default function Orders() {
   };
 
   const getAllCustomerOrders = async () => {
-    // const clientId = 1;
-    // const { data } = await axios.get(
-    //   `/api/v1.0/kitchen/orders-by-customer/${clientId}`
-    // );
-    // setOrders(data.orders);
-
-    socket.emit("request-customer-orders");
-
-    socket.on("get-customer-orders", (data) => {
-      setOrders(data.orders);
-    });
+    const clientId = 1;
+    const { data } = await axios.get(
+      `/api/v1.0/kitchen/orders-by-customer/${clientId}`
+    );
+    setOrders(data.orders);
   };
   useEffect(() => {
     getAllCustomerOrders();
   }, []);
 
+  socket.on("get-customer-orders", (data) => {
+    setOrders(data.orders);
+  });
+
   const handleUpdateOrderStatus = async (orderId, newOrderStatus) => {
-    // const { data } = await axios.put(
-    //   `/api/v1.0/kitchen/orders/update-status/${orderId}/${newOrderStatus}`
-    // );
+    await axios.put(
+      `/api/v1.0/kitchen/orders/update-status/${orderId}/${newOrderStatus}`
+    );
     // console.log(data);
     // if (data.status_code === 200) {
     //   toast.success(data.message);
     // } else {
     //   toast.error("There's an error when try to update the order");
     // }
-    socket.emit("update-customer-order-status", { orderId, newOrderStatus });
+    // socket_user.emit("update-customer-order-status", {
+    //   orderId,
+    //   newOrderStatus,
+    // });
   };
 
   return (

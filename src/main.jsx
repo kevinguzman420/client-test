@@ -4,9 +4,12 @@ import ReactDOM from "react-dom/client";
 import { NextUIProvider } from "@nextui-org/react";
 import App from "./App.jsx";
 import "./index.css";
+import { loadAxiosSettings } from "./utils/axios.config.js";
 
-axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
+// axios.defaults.credentials = "include";
 // axios.defaults.baseURL = 'https://servertest-7be1e94c801c.herokuapp.com/'
+
+loadAxiosSettings();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

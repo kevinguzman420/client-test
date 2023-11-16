@@ -3,7 +3,9 @@ import { Toaster } from "react-hot-toast";
 
 // pages components
 // common
-import Home from "./pages/Home";
+import Signin from "./pages/Signin";
+import Signup from "./pages/Signup";
+import ProtectedPage from "./pages/ProtectedPage";
 // customer
 import Menu from "./pages/dashboard/customer/Menu";
 import Dashboard from "./pages/dashboard/customer/Dashboard";
@@ -17,14 +19,51 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* common */}
-        <Route path="/" element={<Home />} />
+        <Route index element={<Signin />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/signup" element={<Signup />} />
         {/* customer */}
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/dashboard/menu" element={<Menu />} />
-        <Route path="/dashboard/pay" element={<Pay />} />
-        <Route path="/dashboard/orders" element={<Orders />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedPage>
+              <Dashboard />
+            </ProtectedPage>
+          }
+        />
+        <Route
+          path="/dashboard/menu"
+          element={
+            <ProtectedPage>
+              <Menu />
+            </ProtectedPage>
+          }
+        />
+        <Route
+          path="/dashboard/pay"
+          element={
+            <ProtectedPage>
+              <Pay />
+            </ProtectedPage>
+          }
+        />
+        <Route
+          path="/dashboard/orders"
+          element={
+            <ProtectedPage>
+              <Orders />
+            </ProtectedPage>
+          }
+        />
         {/* user */}
-        <Route path="/dashboard/orders/user" element={<OrdersUser />} />
+        <Route
+          path="/dashboard/orders/user"
+          element={
+            <ProtectedPage>
+              <OrdersUser />
+            </ProtectedPage>
+          }
+        />
         <Route path="*" element={<h1>Page not found</h1>} />
         {/* admin */}
       </Routes>

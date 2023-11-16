@@ -28,7 +28,12 @@ export default function Menu() {
     try {
       const { data } = await axios.get("/api/v1.0/kitchen/menu");
       setMenus(data.menus);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error.response.status);
+      if (error.response.status === 401) {
+        // console.log(error);
+      }
+    }
   };
   useEffect(() => {
     getMenuItems();
